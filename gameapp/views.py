@@ -1,10 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import FileUploadSerializer
+from .serializers import FileUploadSerializer, GameSettingsSerializer
 from .utils import process_game_with_user_code
 
 class GameWithFileUploadView(APIView):
+    serializer_class = GameSettingsSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = FileUploadSerializer(data=request.data)

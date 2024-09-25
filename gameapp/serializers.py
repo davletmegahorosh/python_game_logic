@@ -1,6 +1,27 @@
-from rest_framework import serializers
 import base64
 from django.core.files.base import ContentFile
+from rest_framework import serializers
+
+class GameSettingsSerializer(serializers.Serializer):
+    map = serializers.ListField(
+        child=serializers.ListField(
+            child=serializers.IntegerField(),
+            min_length=10,
+            max_length=10
+        ),
+        min_length=10,
+        max_length=10
+    )
+    max_moves = serializers.IntegerField(
+        min_value=1,
+        required=True,
+        help_text="Максимальное количество ходов в игре."
+    )
+    file = serializers.FileField(
+        required=True,
+        help_text="Файл с кодом игрока для решения задачи. Должен быть .py."
+    )
+
 
 class Base64FileField(serializers.FileField):
     def to_internal_value(self, data):
