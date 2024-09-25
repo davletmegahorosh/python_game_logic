@@ -13,7 +13,7 @@ class Base64FileField(serializers.FileField):
             except TypeError:
                 self.fail('invalid_file')
 
-            file_name = 'file_app/file.py'
+            file_name = 'gameapp/file.py'
             return ContentFile(decoded_file, name=file_name)
 
         self.fail('invalid_data')
