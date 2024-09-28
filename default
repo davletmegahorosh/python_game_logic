@@ -90,6 +90,8 @@ server {
 #	}
 #}
 
+
+
 server {
     listen 999;
     server_name 94.241.141.190;
@@ -122,7 +124,7 @@ server {
     }
 
     location /staticfiles/ {
-       alias /var/www/python_game_logic/static/;  # Убедитесь, что путь к статическим файлам правильный
+       alias /var/www/python_game_logic/staticfiles/;
     }
 
     location / {
