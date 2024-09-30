@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import GameWithFileUploadView
+from .views import GameAPIView
 
 urlpatterns = [
-    path('play/', GameWithFileUploadView.as_view())
+    path('play/', GameAPIView.as_view())
 ]
