@@ -1,23 +1,16 @@
 import base64
 
-file_path = "/Users/Davlet/Downloads/team2.py"
-#
-try:
-    with open(file_path, "rb") as f:
-        encoded_file = base64.b64encode(f.read()).decode('utf-8')
-    print(encoded_file)
-except FileNotFoundError:
-    print(f"Файл не найден: {file_path}")
-except Exception as e:
-    print(f"Произошла ошибка: {e}")
-#
-#
-# encoded_file="aW1wb3J0IHJhbmRvbQoKZGVmIG1vdmVQbGF5ZXIoZ2FtZV9tYXAsIHN0b3JlKToKICAgIGRlZiBmaW5kX3BsYXllcihnYW1lX21hcCk6CiAgICAgICAgZm9yIGksIHJvdyBpbiBlbnVtZXJhdGUoZ2FtZV9tYXApOgogICAgICAgICAgICBmb3IgaiwgY2VsbCBpbiBlbnVtZXJhdGUocm93KToKICAgICAgICAgICAgICAgIGlmIGNlbGwgPT0gMjoKICAgICAgICAgICAgICAgICAgICByZXR1cm4gaSwgagoKICAgIHBsYXllcl9wb3NpdGlvbiA9IGZpbmRfcGxheWVyKGdhbWVfbWFwKQoKICAgICMgQ2hlY2sgZm9yIGF2YWlsYWJsZSBmb29kIGF0IHRoZSBwbGF5ZXIncyBwb3NpdGlvbgogICAgaWYgZ2FtZV9tYXBbcGxheWVyX3Bvc2l0aW9uWzBdXVtwbGF5ZXJfcG9zaXRpb25bMV1dID09IDM6CiAgICAgICAgZ2FtZV9tYXBbcGxheWVyX3Bvc2l0aW9uWzBdXVtwbGF5ZXJfcG9zaXRpb25bMV1dID0gMSAgIyBTZXQgdGhlIHNwYWNlIHRvIGZyZWUKCiAgICAjIENoZWNrIGZvciBhdmFpbGFibGUgZm9vZCB3aXRoaW4gYSByYWRpdXMgb2YgMiBjZWxscwogICAgZm9yIGkgaW4gcmFuZ2UobWF4KDAsIHBsYXllcl9wb3NpdGlvblswXSAtIDIpLCBtaW4obGVuKGdhbWVfbWFwKSwgcGxheWVyX3Bvc2l0aW9uWzBdICsgMykpOgogICAgICAgIGZvciBqIGluIHJhbmdlKG1heCgwLCBwbGF5ZXJfcG9zaXRpb25bMV0gLSAyKSwgbWluKGxlbihnYW1lX21hcFswXSksIHBsYXllcl9wb3NpdGlvblsxXSArIDMpKToKICAgICAgICAgICAgaWYgZ2FtZV9tYXBbaV1bal0gPT0gMzoKICAgICAgICAgICAgICAgICMgTW92ZSB0b3dhcmRzIHRoZSB2aXNpYmxlIGZvb2QKICAgICAgICAgICAgICAgIGlmIGkgPCBwbGF5ZXJfcG9zaXRpb25bMF06CiAgICAgICAgICAgICAgICAgICAgcmV0dXJuICd0b3AnLCBzdG9yZQogICAgICAgICAgICAgICAgZWxpZiBpID4gcGxheWVyX3Bvc2l0aW9uWzBdOgogICAgICAgICAgICAgICAgICAgIHJldHVybiAnYm90dG9tJywgc3RvcmUKICAgICAgICAgICAgICAgIGVsaWYgaiA8IHBsYXllcl9wb3NpdGlvblsxXToKICAgICAgICAgICAgICAgICAgICByZXR1cm4gJ2xlZnQnLCBzdG9yZQogICAgICAgICAgICAgICAgZWxpZiBqID4gcGxheWVyX3Bvc2l0aW9uWzFdOgogICAgICAgICAgICAgICAgICAgIHJldHVybiAncmlnaHQnLCBzdG9yZQoKICAgICMgUmFuZG9tbHkgc2VsZWN0IGEgZGlyZWN0aW9uIGlmIG5vIHZpc2libGUgZm9vZAogICAgZGlyZWN0aW9ucyA9IFsndG9wJywgJ2JvdHRvbScsICdsZWZ0JywgJ3JpZ2h0J10KICAgIHNpZGUgPSByYW5kb20uY2hvaWNlKGRpcmVjdGlvbnMpCgogICAgIyBVcGRhdGUgdGhlIHN0b3JlIGZvciBmdXR1cmUgY2FsbHMKICAgIHN0b3JlWydwcmV2aW91c19kaXJlY3Rpb24nXSA9IHNpZGUKCiAgICAjIENoZWNrIGZvciBvYnN0YWNsZXMgaW4gdGhlIGNob3NlbiBkaXJlY3Rpb24KICAgIGlmIHNpZGUgPT0gJ3RvcCcgYW5kIGdhbWVfbWFwW3BsYXllcl9wb3NpdGlvblswXSAtIDFdW3BsYXllcl9wb3NpdGlvblsxXV0gIT0gMDoKICAgICAgICByZXR1cm4gc2lkZSwgc3RvcmUKICAgIGVsaWYgc2lkZSA9PSAnYm90dG9tJyBhbmQgZ2FtZV9tYXBbcGxheWVyX3Bvc2l0aW9uWzBdICsgMV1bcGxheWVyX3Bvc2l0aW9uWzFdXSAhPSAwOgogICAgICAgIHJldHVybiBzaWRlLCBzdG9yZQogICAgZWxpZiBzaWRlID09ICdsZWZ0JyBhbmQgZ2FtZV9tYXBbcGxheWVyX3Bvc2l0aW9uWzBdXVtwbGF5ZXJfcG9zaXRpb25bMV0gLSAxXSAhPSAwOgogICAgICAgIHJldHVybiBzaWRlLCBzdG9yZQogICAgZWxpZiBzaWRlID09ICdyaWdodCcgYW5kIGdhbWVfbWFwW3BsYXllcl9wb3NpdGlvblswXV1bcGxheWVyX3Bvc2l0aW9uWzFdICsgMV0gIT0gMDoKICAgICAgICByZXR1cm4gc2lkZSwgc3RvcmUKICAgIGVsc2U6CiAgICAgICAgIyBDaG9vc2UgYSBkaWZmZXJlbnQgZGlyZWN0aW9uIGlmIHRoZSBjaG9zZW4gb25lIGhhcyBhbiBvYnN0YWNsZQogICAgICAgIHJldHVybiByYW5kb20uY2hvaWNlKFtkIGZvciBkIGluIGRpcmVjdGlvbnMgaWYgZCAhPSBzaWRlXSksIHN0b3Jl"
-#
-# try:
-#     decoded_data = base64.b64decode(encoded_file)
-#     with open("output.py", "wb") as f:
-#         f.write(decoded_data)
-#     print("Файл успешно декодирован и сохранен как output.py")
-# except Exception as e:
-#     print(f"Произошла ошибка при декодировании: {e}")
+with open("/Users/Davlet/Downloads/team1.py", "rb") as f:
+    encoded_file = base64.b64encode(f.read()).decode('utf-8')
+print(encoded_file)
+
+with open("/Users/Davlet/Downloads/team2.py", "rb") as f:
+    encoded_file = base64.b64encode(f.read()).decode('utf-8')
+print(encoded_file)
+
+with open("/Users/Davlet/Downloads/team3.py", "rb") as f:
+    encoded_file = base64.b64encode(f.read()).decode('utf-8')
+print(encoded_file)
+
+
+
