@@ -1,4 +1,4 @@
-import os
+import random
 def get_field_around_player(player_symbol, radius, map):
     for i, row in enumerate(map):
         for j, element in enumerate(row):
@@ -54,16 +54,17 @@ def validate_python_syntax(file_path):
 def validate_map_objects(map_data):
     for row in map_data:
         for cell in row:
-            if cell not in [0, 1, 2, 3]:
+            if cell not in [0, 1, 2, 3, 4, 5]:
                 return f"Invalid object '{cell}' found on map. Allowed objects are 0, 1, 2, 3."
     return None
 
 
-def validate_player_function(context):
+def validate_player_function(context, player):
     if 'movePlayer' not in context:
-        return "Function 'movePlayer' is not found in the code."
+        print(context)
+        return f"Function 'movePlayer' is not found in the code. {player}"
     elif not callable(context['movePlayer']):
-        return "'movePlayer' is not a function."
+        return f"'movePlayer' is not a function.{player}"
     return None
 
 
@@ -122,29 +123,44 @@ def validate_move_direction(direction):
     return None
 
 
-def process_game_with_user_code(file_obj, map_data, max_moves):
-    if not file_obj.name.endswith('.py'):
-        return {"error": "Uploaded file is not a Python (.py) file."}, False
+def process_game_with_user_code(file_1_obj, file_2_obj, map_data, max_moves):
+    random_result = random.randint(0,1)
+    first_move = "First_player"
+    if random_result:
+        file_1_obj, file_2_obj = file_2_obj, file_1_obj
+        first_move = "Second_Player"
 
-    file_path = os.path.join('', file_obj.name)
-    with open(file_path, 'wb+') as destination:
-        for chunk in file_obj.chunks():
-            destination.write(chunk)
+    syntax_error_1 = validate_python_syntax(file_1_obj)
+    if syntax_error_1:
+        return {"error": syntax_error_1}, False
 
-    syntax_error = validate_python_syntax(file_path)
-    if syntax_error:
-        return {"error": syntax_error}, False
+    context_1 = {}
+    with open(file_1_obj,"r") as f:
+        code_1 = f.read()
+    exec (code_1, context_1)
 
-    context = {}
-    with open(file_path, 'r') as f:
-        code = f.read()
-    exec(code, context)
+    function_error_1 = validate_player_function(context_1, "player_1")
+    if function_error_1:
+        return {"error": function_error_1}, False
 
-    function_error = validate_player_function(context)
-    if function_error:
-        return {"error": function_error}, False
+    movePlayer = context_1['movePlayer']
 
-    movePlayer = context['movePlayer']
+    syntax_error_2 = validate_python_syntax(file_2_obj)
+    if syntax_error_2:
+        return {"error": syntax_error_2}, False
+
+    context_2 = {}
+    with open(file_2_obj,"r") as f:
+        code_2 = f.read()
+    exec (code_2, context_2)
+
+
+    function_error_2 = validate_player_function(context_2, "player_2")
+    if function_error_2:
+        return {"error": function_error_2}, False
+
+    movePlayer_2 = context_2['movePlayer']
+
 
     map_error = validate_map_objects(map_data)
     if map_error:
@@ -158,40 +174,64 @@ def process_game_with_user_code(file_obj, map_data, max_moves):
     if fruits_accessibility_error:
         return {"error": fruits_accessibility_error}, False
 
-    # Логика игры
-    store = {}
+    store_1 = {}
+    store_2 = {}
     moves_log = []
     moves_count = 0
     game_result = "victory"
-    infinite_loop_detected = False
+
 
     while moves_count < max_moves:
-        limited_map = get_field_around_player(2, 2, map_data)
-        direction, store = movePlayer(limited_map, store)
 
-        direction_error = validate_move_direction(direction)
-        if direction_error:
-            return {"error": direction_error}, False
+        limited_map_1 = get_field_around_player(3, 2, map_data)
+        for i in range(len(limited_map_1)):
+            for j in range(len(limited_map_1[i])):
+                if j == 3:
+                    limited_map_1[i][j] = 2
+                    break
+
+        direction_1, store_1 = movePlayer(limited_map_1, store_1)
+
+        direction_error_1 = validate_move_direction(direction_1)
+        if direction_error_1:
+            return {"error": direction_error_1}, False
 
         moves_log.append({
             "move_number": moves_count + 1,
-            "direction": direction,
-            "store": store.copy()
+            "player": 1,
+            "direction": direction_1,
+            "store_1": store_1.copy()
+        })
+
+        limited_map_2 = get_field_around_player(4, 2, map_data)
+        for i in range(len(limited_map_2)):
+            for j in range(len(limited_map_2[i])):
+                if j == 4:
+                    limited_map_2[i][j] = 2
+                    break
+
+        direction_2, store_2 = movePlayer_2(limited_map_2, store_2)
+
+        direction_error_2 = validate_move_direction(direction_2)
+        if direction_error_2:
+            return {"error": direction_error_2}, False
+
+        moves_log.append({
+            "move_number": moves_count + 1,
+            "player": 2,
+            "direction": direction_2,
+            "store_2": store_2.copy()
         })
         moves_count += 1
 
-        new_data = move(direction, {"map": map_data, "store": store, "player_moves": len(moves_log), "amount_food": 5})
+        new_data = move(direction_1, {"map": map_data, "store": store_1, "player_moves": len(moves_log), "amount_food": 5})
+        new_data = move(direction_2, {"map": map_data, "store": store_2, "player_moves": len(moves_log), "amount_food": 5})
 
         if new_data["amount_food"] == 0:
             game_result = "victory"
             break
 
-        if len(moves_log) > 1 and moves_log[-1]["direction"] == moves_log[-2]["direction"]:
-            infinite_loop_detected = True
-
-    if infinite_loop_detected:
-        game_result = "infinite_loop_detected"
-    elif moves_count == max_moves:
+    if moves_count == max_moves:
         game_result = "max_moves_reached"
 
     return {

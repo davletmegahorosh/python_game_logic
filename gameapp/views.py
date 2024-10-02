@@ -10,11 +10,12 @@ class GameWithFileUploadView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = FileUploadSerializer(data=request.data)
         if serializer.is_valid():
-            file_obj = serializer.validated_data['file']
-            map_data = request.data.get("map", None)
-            max_moves = request.data.get("max_moves", 500)
+            file_1_obj = serializer.validated_data['file_1']
+            file_2_obj = serializer.validated_data['file_2']
+            map_data = request.data.get("map")
+            max_moves = int(request.data.get("max_moves"))
 
-            game_result, success = process_game_with_user_code(file_obj, map_data, max_moves)
+            game_result, success = process_game_with_user_code(file_1_obj,file_2_obj, map_data, max_moves)
 
             if success:
                 return Response(game_result, status=status.HTTP_200_OK)

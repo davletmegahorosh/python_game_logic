@@ -12,12 +12,15 @@ class Base64FileField(serializers.FileField):
     def to_internal_value(self, data):
         if isinstance(data, str):
             try:
-                format, imgstr = data.split(';base64,')
-                ext = format.split('/')[-1]
-                data = base64.b64decode(imgstr)
-                file = io.BytesIO(data)
-                file.name = 'uploaded_file.' + ext
-                return file
+                # Декодируем данные из base64
+                decoded_data = base64.b64decode(data)
+
+                output_file_path = f'{self.source}.py'  # Используем self.source для уникальности
+
+                with open(output_file_path, 'wb') as output_file:
+                    output_file.write(decoded_data)
+
+                return output_file_path
             except (TypeError, ValueError, base64.binascii.Error) as e:
                 raise ValidationError("Invalid base64 data")
         else:
@@ -30,12 +33,9 @@ class Base64FileField(serializers.FileField):
         return ''
 
 class FileUploadSerializer(serializers.Serializer):
-    file = Base64FileField()
+    file_1 = Base64FileField()
+    file_2 = Base64FileField()
 
-    def validate_file(self, value):
-        if not value.name.endswith('.py'):
-            raise serializers.ValidationError("Файл должен быть с расширением .py")
-        return value
 
 class GameSettingsSerializer(serializers.Serializer):
     map = serializers.ListField(
@@ -52,7 +52,12 @@ class GameSettingsSerializer(serializers.Serializer):
         required=True,
         help_text="Максимальное количество ходов в игре."
     )
-    file = Base64FileField(
+    file_1 = Base64FileField(
+        required=True,
+        help_text="Файл с кодом игрока для решения задачи. Должен быть .py."
+    )
+
+    file_2 = Base64FileField(
         required=True,
         help_text="Файл с кодом игрока для решения задачи. Должен быть .py."
     )
