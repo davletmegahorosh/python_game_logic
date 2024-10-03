@@ -1,6 +1,6 @@
 # import base64
 #
-# file_path = '/Users/Davlet/Downloads/team3.py'
+# file_path = '/Users/Davlet/Downloads/team2.py'
 #
 # with open(file_path, 'rb') as file:
 #     file_data = file.read()
@@ -11,9 +11,7 @@
 #
 # data_uri = f'data:text/x-python;base64,{encoded_str}'
 #
-# print(f'Закодированный файл в base64: {data_uri}')
-#
-#
+# print(f'Закодированный файл в base64: {encoded_str}')
 # decoded_data = base64.b64decode(encoded_str)
 #
 # output_file_path = 'decoded_file.cpp'
@@ -22,15 +20,20 @@
 #     output_file.write(decoded_data)
 #
 # print(f'Декодированные данные записаны в файл: {output_file_path}')
-import random
+# import random
+#
+# file_1_obj = "file_1.py"
+# file_2_obj = "file_2.py"
+#
+# random_player = [file_1_obj, file_2_obj]
+#
+# random.shuffle(random_player)
+#
+# print(random_player)
+#
+# file_1_obj, file_2_obj = random_player[0], random_player[1]
+# import random
+# print(random.randint(0,1))
 
-file_1_obj = "file_1.py"
-file_2_obj = "file_2.py"
-
-random_player = [file_1_obj, file_2_obj]
-
-random.shuffle(random_player)
-
-print(random_player)
-
-file_1_obj, file_2_obj = random_player[0], random_player[1]
+for i in range(1,2):
+    print(i)
