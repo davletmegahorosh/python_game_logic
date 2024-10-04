@@ -110,6 +110,7 @@ def process_game_with_user_code(file_1_obj, file_2_obj, map_data, max_moves):
         moves_count += 1
 
         new_data = move(direction_1, direction_2, {"map": map_data, "amount_food": 5, "player_moves": len(moves_log)})
+
         # new_data = move(direction_2, {"map": map_data, "store": store_2, "player_moves": len(moves_log), "amount_food": 5},4)
         #
         # if new_data["amount_food"] == 0:
