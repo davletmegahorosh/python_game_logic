@@ -20,8 +20,9 @@ def move(direction_1, direction_2, data):
     data["player_moves"] += 1
     for j in [1,2]:
         player_position = [(i, row.index(j+2)) for i, row in enumerate(data["map"]) if j+2 in row][0]
-        direction = direction_1 if j == 1 else direction_2
 
+        direction = direction_1 if j == 1 else direction_2
+        print(player_position, direction)
         new_position = None
 
         if direction == 'left':
@@ -38,9 +39,9 @@ def move(direction_1, direction_2, data):
                     data["amount_food"] -= 1
                 elif data['map'][new_position[0]][new_position[1]] == 5:
                     data[f'is_alive_{j}'] = False
+                print(new_position, direction)
                 data["map"][player_position[0]][player_position[1]] = 0
                 data["map"][new_position[0]][new_position[1]] = j + 2
-
     return data
 
 

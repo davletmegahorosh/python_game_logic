@@ -15,7 +15,7 @@ class Base64FileField(serializers.FileField):
                 # Декодируем данные из base64
                 decoded_data = base64.b64decode(data)
 
-                output_file_path = f'{self.source}.py'  # Используем self.source для уникальности
+                output_file_path = f'test_result_files/{self.source}.py'
 
                 with open(output_file_path, 'wb') as output_file:
                     output_file.write(decoded_data)

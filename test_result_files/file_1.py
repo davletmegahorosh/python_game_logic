@@ -1,22 +1,22 @@
 import random
 
-def movePlayer(game_map, store):
+def movePlayer(game_map, store, player_symbol):
     def find_player(game_map):
         for i, row in enumerate(game_map):
             for j, cell in enumerate(row):
-                if cell == 2:
+                if cell == player_symbol:
                     return i, j
 
     player_position = find_player(game_map)
 
     # Check for available food at the player's position
-    if game_map[player_position[0]][player_position[1]] == 3:
-        game_map[player_position[0]][player_position[1]] = 1  # Set the space to free
+    if game_map[player_position[0]][player_position[1]] == 2:
+        game_map[player_position[0]][player_position[1]] = 0  # Set the space to free
 
     # Check for available food within a radius of 2 cells
     for i in range(max(0, player_position[0] - 2), min(len(game_map), player_position[0] + 3)):
         for j in range(max(0, player_position[1] - 2), min(len(game_map[0]), player_position[1] + 3)):
-            if game_map[i][j] == 3:
+            if game_map[i][j] == 2:
                 # Move towards the visible food
                 if i < player_position[0]:
                     return 'top', store

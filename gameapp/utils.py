@@ -1,4 +1,6 @@
 import random
+from pprint import pprint
+
 from .utils2 import *
 def process_game_with_user_code(file_1_obj, file_2_obj, map_data, max_moves):
     random_result = random.randint(0,1)
@@ -62,40 +64,28 @@ def process_game_with_user_code(file_1_obj, file_2_obj, map_data, max_moves):
     while moves_count < max_moves:
 
         limited_map_1 = get_field_around_player(3, 2, map_data)
-        # print(limited_map_1)
-        for i in range(len(limited_map_1)):
-            for j in range(len(limited_map_1[i])):
-                if j == 3:
-                    limited_map_1[i][j] = 2
-                elif j == 2:
-                    limited_map_1[i][j] = 3
 
-        # try:
-        direction_1, store_1 = movePlayer_1(limited_map_1, store_1)
-        # except Exception as e:
-        #     print(f"Error while running movePlayer: {e}")
-        #     return (f"Error while running movePlayer_1: {e}"), False
+
+        try:
+            direction_1, store_1 = movePlayer_1(limited_map_1, store_1, 3)
+        except Exception as e:
+            print(f"Error while running movePlayer: {e}")
+            return (f"Error while running movePlayer_1: {e}"), False
 
         direction_error_1 = validate_move_direction(direction_1)
         if direction_error_1:
             return {"error": direction_error_1}, False
 
         limited_map_2 = get_field_around_player(4, 2, map_data)
-        # print(limited_map_2)
-        for i in range(len(limited_map_2)):
-            for j in range(len(limited_map_2[i])):
-                if j == 4:
-                    limited_map_2[i][j] = 2
-                elif j == 2:
-                    limited_map_2[i][j] = 3
 
-        # try:
-        direction_2, store_2 = movePlayer_2(limited_map_2, store_2)
-        # except Exception as e:
-        #     print(f"Error while running movePlayer: {e}")
-        #     return (f"Error while running movePlayer_2: {e}"), False
+        try:
+            direction_2, store_2 = movePlayer_2(limited_map_2, store_2, 4)
+        except Exception as e:
+            print(f"Error while running movePlayer: {e}")
+            return (f"Error while running movePlayer_2: {e}"), False
 
         direction_error_2 = validate_move_direction(direction_2)
+
         if direction_error_2:
             return {"error": direction_error_2}, False
 
@@ -111,14 +101,13 @@ def process_game_with_user_code(file_1_obj, file_2_obj, map_data, max_moves):
 
         new_data = move(direction_1, direction_2, {"map": map_data, "amount_food": 5, "player_moves": len(moves_log)})
 
-        # new_data = move(direction_2, {"map": map_data, "store": store_2, "player_moves": len(moves_log), "amount_food": 5},4)
-        #
         # if new_data["amount_food"] == 0:
         #     game_result = "victory"
         #     break
 
     if moves_count == max_moves:
         game_result = "max_moves_reached"
+        pprint(map_data)
 
     return {
         "game_result": game_result,
