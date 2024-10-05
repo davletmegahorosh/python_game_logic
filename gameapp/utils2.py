@@ -35,11 +35,18 @@ def move(direction_1, direction_2, data):
             new_position = (player_position[0] + 1, player_position[1])
         if 0 <= new_position[0] < 15 and 0 <= new_position[1] < 15:
             if data["map"][new_position[0]][new_position[1]] != 1:
-                if data["map"][new_position[0]][new_position[1]] == 2:
+                new = data['map'][new_position[0]][new_position[1]]
+                prev = data["map"][player_position[0]][player_position[1]]
+                if new == 2:
                     data["amount_food"] -= 1
-                elif data['map'][new_position[0]][new_position[1]] == 5:
+                    data[f"fruits_{j}"] += 1
+                elif new == 5:
                     data[f'is_alive_{j}'] = False
-                print(new_position, direction)
+                    data['reason'] = "bomb"
+                elif new == 3 or new == 4:
+                    enemy = 2 if j == 1 else 1
+                    data[f'is_slive_{enemy}'] = False
+                    data['reason'] = "step"
                 data["map"][player_position[0]][player_position[1]] = 0
                 data["map"][new_position[0]][new_position[1]] = j + 2
     return data
@@ -56,11 +63,14 @@ def validate_python_syntax(file_path):
 
 
 def validate_map_objects(map_data):
+    count_fruits = 0
     for row in map_data:
         for cell in row:
             if cell not in [0, 1, 2, 3, 4, 5]:
                 return f"Invalid object '{cell}' found on map. Allowed objects are 0, 1, 2, 3."
-    return None
+            if cell == 2:
+                count_fruits += 1
+    return count_fruits
 
 
 def validate_player_function(context, player):
