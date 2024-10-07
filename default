@@ -94,7 +94,7 @@ server {
 
 server {
     listen 999;
-    server_name 107.21.177.85;
+    server_name 3.82.10.186;
 
     root /var/www/python_game_logic;
     index index.html index.htm index.nginx-debian.html;
