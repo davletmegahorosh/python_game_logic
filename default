@@ -94,7 +94,7 @@ server {
 
 server {
     listen 999;
-    server_name 94.241.141.190;
+    server_name 107.21.177.85;
 
     root /var/www/python_game_logic;
     index index.html index.htm index.nginx-debian.html;
@@ -123,7 +123,7 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
     }
 
-    location /staticfiles/ {
+    location /static/ {
        alias /var/www/python_game_logic/staticfiles/;
     }
 
