@@ -76,25 +76,25 @@ server {
 # You can move that to a different file under sites-available/ and symlink that
 # to sites-enabled/ to enable it.
 #
-#server {
-#	listen 80;
-#	listen [::]:80;
-#
-#	server_name example.com;
-#
-#	root /var/www/example.com;
-#	index index.html;
-#
-#	location / {
-#		try_files $uri $uri/ =404;
-#	}
-#}
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name html;
+
+root /var/www/html;
+	index index.html;
+
+	location / {
+		try_files $uri $uri/ =404;
+	}
+}
 
 
 
 server {
     listen 999;
-    server_name 3.82.10.186;
+    server_name 3.87.29.118;
 
     root /var/www/python_game_logic;
     index index.html index.htm index.nginx-debian.html;
@@ -134,3 +134,4 @@ server {
     access_log /var/log/nginx/app-access.log;
     error_log /var/log/nginx/app-error.log;
 }
+
