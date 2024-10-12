@@ -1,5 +1,6 @@
 import random
 def get_field_around_player(player_symbol, radius, map):
+    player_position = (0, 0)
     for i, row in enumerate(map):
         for j, element in enumerate(row):
             if element == player_symbol:
