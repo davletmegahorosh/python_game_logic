@@ -12,9 +12,6 @@ class Base64FileField(serializers.FileField):
     def to_internal_value(self, data):
         if isinstance(data, str):
             try:
-                #это ряльна сложно
-
-                # Декодируем данные из base64
                 decoded_data = base64.b64decode(data)
 
                 output_file_path = f'test_result_files/{self.source}.py'
